@@ -65,6 +65,8 @@ El agente está desplegado en OCI Compute (Ubuntu 22.04):
 | **Health check** | http://138.2.213.3:8000/health |
 | **Documentación** | http://138.2.213.3:8000/docs |
 
+![Fingerprint RAG Agent corriendo en OCI](docs/oci-deploy.png)
+
 ### Pasos del deploy en OCI
 
 **1. Crear la instancia**
