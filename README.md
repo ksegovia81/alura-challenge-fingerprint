@@ -65,6 +65,76 @@ El agente está desplegado en OCI Compute (Ubuntu 22.04):
 | **Health check** | http://138.2.213.3:8000/health |
 | **Documentación** | http://138.2.213.3:8000/docs |
 
+### Pasos del deploy en OCI
+
+**1. Crear la instancia**
+- OCI Compute → Ubuntu 22.04 → shape VM.Standard.E2.1.Micro (1 GB RAM)
+- Descargar la clave SSH al crear la instancia
+
+**2. Abrir el puerto 8000**
+- Networking → Virtual Cloud Networks → Default Security List
+- Agregar Ingress Rule: Source `0.0.0.0/0`, TCP, puerto `8000`
+
+**3. Configurar swap (necesario con 1 GB RAM)**
+```bash
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+**4. Clonar el repo y crear el entorno virtual**
+```bash
+git clone https://github.com/ksegovia81/alura-challenge-fingerprint.git
+cd alura-challenge-fingerprint
+python3 -m venv .venv
+```
+
+**5. Crear el `.env` con la API key**
+```bash
+echo "ANTHROPIC_API_KEY=sk-ant-..." > .env
+```
+
+**6. Instalar dependencias**
+```bash
+.venv/bin/pip install -r requirements.txt
+```
+
+**7. Indexar el PDF**
+```bash
+.venv/bin/python -m app.ingest
+```
+
+**8. Configurar el servicio systemd**
+```bash
+sudo tee /etc/systemd/system/fingerprint.service << 'EOF'
+[Unit]
+Description=Fingerprint RAG Agent
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/alura-challenge-fingerprint
+ExecStart=/home/ubuntu/alura-challenge-fingerprint/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload
+sudo systemctl enable fingerprint
+sudo systemctl start fingerprint
+```
+
+**9. Abrir el puerto 8000 en iptables**
+
+OCI Ubuntu bloquea por defecto todo tráfico entrante excepto el puerto 22. Hay que agregar una regla a nivel de SO:
+```bash
+sudo iptables -I INPUT 4 -p tcp --dport 8000 -j ACCEPT
+sudo netfilter-persistent save
+```
+
 ## Uso
 
 ### Health check
