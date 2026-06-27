@@ -190,7 +190,3 @@ Pregunta del usuario
 ```
 
 El sistema usa RAG (Retrieval Augmented Generation): en vez de responder desde su entrenamiento general, Claude responde únicamente con información extraída del dossier de Fingerprint. Si la respuesta no está en el documento, lo dice claramente.
-
-## Nota sobre SSL en Windows
-
-En entornos Windows con certificados corporativos o antivirus que interceptan SSL, el código incluye un bypass en `agent.py` e `ingest.py`. No es necesario en producción (Linux/OCI).
