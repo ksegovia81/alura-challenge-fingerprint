@@ -69,13 +69,13 @@ El agente está desplegado en OCI Compute (Ubuntu 22.04):
 
 ### Health check
 ```bash
-GET http://138.2.213.3:8000/health
+GET http://localhost:8000/health
 # {"status": "ok"}
 ```
 
 ### Hacer una pregunta
 ```bash
-POST http://138.2.213.3:8000/ask
+POST http://localhost:8000/ask
 Content-Type: application/json
 
 {"question": "¿Qué productos ofrece Fingerprint?"}
