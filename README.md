@@ -112,7 +112,7 @@ Pregunta del usuario
        ↓
   Prompt con contexto
        ↓
-  Claude Opus 4.8  →  genera respuesta basada en el contexto
+  Claude Sonnet 4.6  →  genera respuesta basada en el contexto
        ↓
      Respuesta
 ```
