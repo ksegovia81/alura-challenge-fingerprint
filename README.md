@@ -55,17 +55,27 @@ python -m app.ingest
 uvicorn app.main:app --port 8000
 ```
 
+## Deploy en producción
+
+El agente está desplegado en OCI Compute (Ubuntu 22.04):
+
+| | |
+|---|---|
+| **Servidor** | `http://138.2.213.3:8000` |
+| **Health check** | http://138.2.213.3:8000/health |
+| **Documentación** | http://138.2.213.3:8000/docs |
+
 ## Uso
 
 ### Health check
 ```bash
-GET http://localhost:8000/health
+GET http://138.2.213.3:8000/health
 # {"status": "ok"}
 ```
 
 ### Hacer una pregunta
 ```bash
-POST http://localhost:8000/ask
+POST http://138.2.213.3:8000/ask
 Content-Type: application/json
 
 {"question": "¿Qué productos ofrece Fingerprint?"}
