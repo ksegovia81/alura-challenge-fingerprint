@@ -67,6 +67,12 @@ El agente está desplegado en OCI Compute (Ubuntu 22.04):
 
 ![Fingerprint RAG Agent corriendo en OCI](docs/oci-deploy.png)
 
+### Interfaz de chat
+
+La aplicación incluye una interfaz de chat accesible en `http://138.2.213.3:8000`:
+
+![Interfaz de chat Fingerprint](docs/chat-ui.png)
+
 ### Pasos del deploy en OCI
 
 **1. Crear la instancia**
